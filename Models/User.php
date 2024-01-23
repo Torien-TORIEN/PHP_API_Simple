@@ -62,16 +62,41 @@ class User {
             echo "Delete user error: " . $e->getMessage();
         }
     }
-
+    
+    public function getById($id) {
+        try {
+            $sql = "SELECT * FROM $this->table WHERE id=?";
+            $stmt = $this->connexion->prepare($sql);
+            $stmt->execute([$id]);
+            
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+            if ($user) {
+                return $user;
+            } else {
+                return null; // Ou un tableau vide, selon votre choix
+            }
+        } catch (PDOException $e) {
+            echo "Find user by id error: " . $e->getMessage();
+        }
+    }
+    
     public function login($email, $password) {
         try {
-            $sql = "SELECT * FROM $this->table WHERE email=? AND password=?";
+            $sql = "SELECT * FROM $this->table WHERE email=?";
             $stmt = $this->connexion->prepare($sql);
-            $stmt->execute([$email, $password]);
-            return $stmt->fetch(PDO::FETCH_ASSOC);
+            $stmt->execute([$email]);
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+            if ($user && password_verify($password, $user['password'])) {
+                return $user;
+            } else {
+                return false;
+            }
         } catch (PDOException $e) {
             echo "Login error: " . $e->getMessage();
         }
     }
+    
 }
 ?>

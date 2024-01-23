@@ -1,16 +1,25 @@
 <?php
 
-//imports
-require_once("./Config/Database.php");
-require_once("./Models/User.php");
+// Autoload des classes
+spl_autoload_register(function ($class) {
+    if (strpos($class, 'Controller') !== false) {
+        // Inclure les contrôleurs depuis le dossier Controllers
+        include 'Controllers/' . $class . '.php';
+    } elseif (strpos($class, 'Model') !== false) {
+        // Inclure les modèles depuis le dossier Models
+        include 'Models/' . $class . '.php';
+    }
+    // Ajoutez d'autres chemins si nécessaire
+});
 
-//Connexion
-$db=new Database();
-$conn=$db->connect_to_db();
 
-//Models
-$user =new User($conn);
 
-$data=$user->readAll();
 
-var_dump($data);
+// Déclaration des routes
+require_once 'Routes/UserRoute.php';
+
+// Instanciation du routeur et traitement des routes
+$userRoute = new UserRoute();
+$userRoute->route();
+
+?>

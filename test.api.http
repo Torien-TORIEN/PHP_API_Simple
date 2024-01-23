@@ -1,0 +1,47 @@
+
+#Login
+POST http://localhost/php_api/index.php/login
+Content-Type: application/json
+
+{
+  "email": "torien1227@gmail.com",
+  "password": "123"
+}
+
+
+### IL FAUT METTRE 3 ### ENTRE CHAQUE REQUETTE
+# Add User
+POST http://localhost/php_api/index.php/create_user
+Content-Type: application/json
+
+{
+    "username": "TATA",
+    "password": "123",
+    "email": "tata@gmail.com",
+    "date_of_birth": "2003-09-06"
+}
+
+###
+# Update User
+PUT http://localhost/php_api/index.php/update_user?id=10
+Content-Type: application/json
+
+{
+    "username": "Marie",
+    "password": "123",
+    "email": "marie@gmail.com",
+    "date_of_birth": "1999-12-31"
+}
+
+### Delete user
+DELETE http://localhost/php_api/index.php/delete_user?id=15
+
+
+###
+# GET All Users
+GET http://localhost/php_api/index.php/users
+
+
+###
+# GET User By id
+GET http://localhost/php_api/index.php/users?id=10
